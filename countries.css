@@ -1,0 +1,26 @@
+body {
+    background-color: rgba(218, 218, 218, 0.281);
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 1000px;
+    min-height: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: large;
+    line-height: 40px;
+}
+
+#countries {
+    border-top: 2px solid black;
+    margin-top: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+li p {
+    text-align: center;
+}
