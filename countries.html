@@ -12,7 +12,7 @@
   <body>
     <label for="continent">Choose a continent:</label>
     <select name="continent" id="continents">
-      <option key="AF" value="Africa">Africa</option>
+      <option key="AF" value="Africa" >Africa</option>
       <option key="AN" value="Antarctica">Antarctica</option>
       <option key="AS" value="Asia">Asia</option>
       <option key="EU" value="Europe">Europe</option>
@@ -26,8 +26,8 @@
     <input type="number" id="quantity" name="quantity" min="2" max="10" value="2"/>
     <br/>
 
-    <button>Show countries!</button>
+    <button onclick="getCountries()">Show countries!</button>
 
-    <div class="countries">COUNTRIES + more information(capital, region, language, currencies, etc)</div>
+    <div id="countries">COUNTRIES + more information(capital, region, language, currencies, etc)</div>
   </body>
 </html>
