@@ -44,7 +44,6 @@ const getCountries = async () => {
     });
     const countries = await result.json();
     const countriesArray = countries.data.continents[continentID].countries;
-    console.log(countriesArray);
 
     if (countriesArray.length < countriesDisplayNum) {
       countriesDisplayNum = countriesArray.length;
@@ -59,6 +58,8 @@ const getCountries = async () => {
         .appendChild(document.createElement("ul"))
         .appendChild(document.createElement("li"));
       li.textContent = countriesArray[i].name;
+      li.onclick = () => getCountryDetails(countriesArray[i].name);
+      li.setAttribute("id", countriesArray[i].name);
 
       document.getElementById("countries").appendChild(fragment);
     }
@@ -66,3 +67,35 @@ const getCountries = async () => {
     console.log(err);
   }
 };
+
+const getCountryDetails = async (countryName) => {
+    document.getElementById(countryName).innerText = "loading details....";
+
+    try {
+        const result = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+        const countryData = await result.json();
+
+        const getDataWithoutKey = (data) => {
+            let object = data;
+            for (let key in object) {
+                if (object.hasOwnProperty(key)) {
+                    return object[key];
+                }
+            }
+        }
+
+        document.getElementById(countryName).innerHTML = `
+        <h3>${countryName}</h3>
+        <p>Official name: ${typeof(countryData[0].name.official) === "string" ? countryData[0].name.official : "No information found!"}</p>
+        <p>Capital: ${typeof(countryData[0].capital) === "object" ? countryData[0].capital : "No information found!"}</p>
+        <p>Population: ${typeof(countryData[0].population) === "number" ? countryData[0].population : "No information found!"}</p>
+        <p>Currency: ${typeof(getDataWithoutKey(countryData[0].currencies).name) === "string" ? getDataWithoutKey(countryData[0].currencies).name : "No information found!"}</p>
+        <p>Subregion: ${typeof(countryData[0].subregion) === "string" ? countryData[0].subregion : "No information found!"}</p>
+        <p>Languages: ${typeof(getDataWithoutKey(countryData[0].languages)) === "string" ? getDataWithoutKey(countryData[0].languages) : "No information found!"}</p>
+        `;
+
+      } catch (err) {
+        console.log(err);
+      }
+}
+{/* ${typeof(getDataWithoutKey(countryData[0].languages)) === "string" ? getDataWithoutKey(countryData[0].languages) : "No information found!"} */}
