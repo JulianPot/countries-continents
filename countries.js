@@ -3,6 +3,7 @@ const getCountries = async () => {
   let countriesDisplayNum = document.getElementById("quantity").value;
   let continentID;
 
+  // check if countries from 2 to 10
   if (countriesDisplayNum < 2 || countriesDisplayNum > 10) {
     alert("Wrong number of countries to display!");
     document.getElementById("countries").innerText = "";
@@ -11,6 +12,7 @@ const getCountries = async () => {
 
   document.getElementById("countries").innerText = "loading....";
 
+  // giving id to get data from array
   if (continent === "Africa") {
     continentID = 0;
   } else if (continent === "Antarctica") {
@@ -28,6 +30,7 @@ const getCountries = async () => {
   }
 
   try {
+
     const result = await fetch(`https://countries.trevorblades.com/graphql`, {
       method: `POST`,
       headers: {
@@ -43,9 +46,17 @@ const getCountries = async () => {
                   }`,
       }),
     });
+
     const countries = await result.json();
     const countriesArray = countries.data.continents[continentID].countries;
 
+    // checking if there is less countries than user want to display
+    if (countriesArray.length < countriesDisplayNum) {
+        countriesDisplayNum = countriesArray.length;
+        alert("There is less countries than you want to display!");
+    }
+
+    // mixing array to display random countries
     const countriesArrayMixed = [...countriesArray];
 
     for (let i = 0; i < countriesArrayMixed.length; i++) {
@@ -57,11 +68,7 @@ const getCountries = async () => {
       countriesArrayMixed.push(...randomItem);
     }
 
-    if (countriesArray.length < countriesDisplayNum) {
-      countriesDisplayNum = countriesArray.length;
-      alert("There is less countries than you want to display!");
-    }
-
+    // dispalying countries
     document.getElementById("countries").innerText = "";
 
     for (let i = 0; i < countriesDisplayNum; i++) {
@@ -89,6 +96,7 @@ const getCountryDetails = async (countryName) => {
     );
     const countryData = await result.json();
 
+    // data from object without key
     const getDataWithoutKey = (data) => {
       let object = data;
       for (let key in object) {
@@ -98,6 +106,7 @@ const getCountryDetails = async (countryName) => {
       }
     };
 
+    // details HTML
     document.getElementById(countryName).innerHTML = `
         <h3>${countryName}</h3>
         <p>Official name: ${
