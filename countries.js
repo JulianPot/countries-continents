@@ -46,6 +46,17 @@ const getCountries = async () => {
     const countries = await result.json();
     const countriesArray = countries.data.continents[continentID].countries;
 
+    const countriesArrayMixed = [...countriesArray];
+
+    for (let i = 0; i < countriesArrayMixed.length; i++) {
+      const randomPosition = Math.floor(
+        (countriesArrayMixed.length - i) * Math.random()
+      );
+      const randomItem = countriesArrayMixed.splice(randomPosition, 1);
+
+      countriesArrayMixed.push(...randomItem);
+    }
+
     if (countriesArray.length < countriesDisplayNum) {
       countriesDisplayNum = countriesArray.length;
       alert("There is less countries than you want to display!");
@@ -58,9 +69,9 @@ const getCountries = async () => {
       const li = fragment
         .appendChild(document.createElement("ul"))
         .appendChild(document.createElement("li"));
-      li.textContent = countriesArray[i].name;
-      li.onclick = () => getCountryDetails(countriesArray[i].name);
-      li.setAttribute("id", countriesArray[i].name);
+      li.textContent = countriesArrayMixed[i].name;
+      li.onclick = () => getCountryDetails(countriesArrayMixed[i].name);
+      li.setAttribute("id", countriesArrayMixed[i].name);
 
       document.getElementById("countries").appendChild(fragment);
     }
